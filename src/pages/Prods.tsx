@@ -1,62 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, MapPin, Users, ExternalLink, Instagram, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/lib/supabaseClient";
 
 const Prods = () => {
   const [activeSection, setActiveSection] = useState("eventos");
+  const [displayCount, setDisplayCount] = useState(6);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const upcomingEvents = [
-    {
-      id: 1,
-      name: "UNDERGROUND FEST 2024",
-      date: "15 MAR 2024",
-      location: "São Paulo - SP",
-      bands: ["Dead Dreams", "Void Walker", "Storm Brigade"],
-      ticketLink: "#",
-      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop",
-      description: "O maior festival underground do país"
-    },
-    {
-      id: 2,
-      name: "METAL MAYHEM",
-      date: "28 MAR 2024", 
-      location: "Rio de Janeiro - RJ",
-      bands: ["Iron Skulls", "Black Thunder"],
-      ticketLink: "#",
-      image: "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400&h=300&fit=crop",
-      description: "Noite de metal pesado"
-    }
-  ];
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      try {
+        const { data, error } = await supabase
+          .from('events')
+          .select('*');
 
-  const pastEvents = [
-    {
-      id: 1,
-      name: "CHAOS FESTIVAL 2023",
-      date: "NOV 2023",
-      location: "Belo Horizonte - MG",
-      highlight: "SOLD OUT",
-      photos: 45
-    },
-    {
-      id: 2,
-      name: "DARK NIGHTS TOUR", 
-      date: "SET 2023",
-      location: "Tour Nacional",
-      highlight: "7 CIDADES",
-      photos: 120
-    }
-  ];
+        if (error) {
+          throw error;
+        }
+
+        const fetchedUpcoming = data.filter(event => event.upcoming);
+        const fetchedPast = data.filter(event => !event.upcoming);
+
+        setUpcomingEvents(fetchedUpcoming);
+        setPastEvents(fetchedPast);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const services = [
-    "Produção de eventos e turnês",
+    "Produção de eventos",
+    "Produção de turnês",
     "Booking de artistas",
-    "Logística (transporte, hospedagem)",
-    "Técnica de som/luz",
-    "Assessoria de imprensa",
-    "Marketing digital"
+    "Aluguel de som",
+    "Técnico de som",
   ];
 
   const SubNav = () => (
@@ -91,7 +79,7 @@ const Prods = () => {
         <div className="text-center mb-12">
           <h1 className="stormy-header">STORMY PRODS</h1>
           <p className="stormy-subtitle">
-            Produção de eventos underground que marcam época
+            Na luta pela cena autoral de Joinville e região desde 2018
           </p>
         </div>
 
@@ -103,10 +91,12 @@ const Prods = () => {
             <div className="stormy-grid">
               {upcomingEvents.map(event => (
                 <Card key={event.id} className="stormy-card group overflow-hidden">
-                  <div 
-                    className="h-48 bg-cover bg-center mb-4 rounded-lg"
-                    style={{ backgroundImage: `url(${event.image})` }}
-                  />
+                  <div className="aspect-[1080/1350] w-full overflow-hidden rounded-lg mb-4">
+                    <div 
+                      className="h-full w-full bg-cover bg-center transition-transform duration-300"
+                      style={{ backgroundImage: `url(${event.image})` }}
+                    />
+                  </div>
                   <CardContent className="p-6">
                     <h3 className="font-bebas text-2xl mb-2 text-primary">
                       {event.name}
@@ -125,10 +115,12 @@ const Prods = () => {
                         {event.bands.join(", ")}
                       </div>
                     </div>
-                    <p className="text-muted-text mb-4">{event.description}</p>
-                    <Button className="stormy-btn-primary w-full">
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Comprar Ingressos
+
+                    <Button asChild className="stormy-btn-primary w-full">
+                      <a href={event.ticketLink}>
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        Comprar Ingressos
+                      </a>
                     </Button>
                   </CardContent>
                 </Card>
@@ -140,39 +132,56 @@ const Prods = () => {
         {/* Histórico */}
         {activeSection === "historico" && (
           <section className="stormy-section">
-            <div className="space-y-6">
-              {pastEvents.map(event => (
-                <Card key={event.id} className="stormy-card">
+            <div className="stormy-grid">
+              {[...pastEvents].reverse().slice(0, displayCount).map(event => (
+                <Card key={event.id} className="stormy-card group overflow-hidden">
+                  <div className="aspect-[1080/1350] w-full overflow-hidden rounded-lg mb-4">
+                    <div 
+                      className="h-full w-full bg-cover bg-center transition-transform duration-300"
+                      style={{ backgroundImage: `url(${event.image})` }}
+                    />
+                  </div>
                   <CardContent className="p-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-bebas text-2xl mb-2">
-                          {event.name}
-                        </h3>
-                        <div className="space-y-1">
-                          <div className="flex items-center text-secondary-text">
-                            <Calendar className="w-4 h-4 mr-2" />
-                            {event.date}
-                          </div>
-                          <div className="flex items-center text-secondary-text">
-                            <MapPin className="w-4 h-4 mr-2" />
-                            {event.location}
-                          </div>
-                        </div>
+                    <h3 className="font-bebas text-2xl mb-2 text-primary">
+                      {event.name}
+                    </h3>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center text-secondary-text">
+                        <Calendar className="w-4 h-4 mr-2" />
+                        {event.date}
                       </div>
-                      <div className="text-right">
-                        <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-bold">
-                          {event.highlight}
-                        </span>
-                        <p className="text-secondary-text mt-2">
-                          {event.photos} fotos
-                        </p>
+                      <div className="flex items-center text-secondary-text">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        {event.location}
+                      </div>
+                      <div className="flex items-center text-secondary-text">
+                        <Users className="w-4 h-4 mr-2" />
+                        {event.bands.join(", ")}
                       </div>
                     </div>
+
+                    {event.photos && (
+                      <Button asChild className="stormy-btn-primary w-full">
+                        <a href={event.photosUrl} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          Ver Fotos
+                        </a>
+                      </Button>
+                    )}
                   </CardContent>
                 </Card>
               ))}
             </div>
+            {displayCount < pastEvents.length && (
+              <div className="text-center mt-8">
+                <Button 
+                  onClick={() => setDisplayCount(prevCount => prevCount + 6)}
+                  className="stormy-btn-primary"
+                >
+                  Carregar Mais Eventos
+                </Button>
+              </div>
+            )}
           </section>
         )}
 
@@ -202,47 +211,23 @@ const Prods = () => {
         {/* Contato */}
         {activeSection === "contato" && (
           <section className="stormy-section">
-            <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-              <div>
-                <h2 className="font-bebas text-3xl mb-6">ENTRE EM CONTATO</h2>
-                <div className="space-y-6">
-                  <div className="flex items-center">
-                    <Mail className="w-5 h-5 text-primary mr-4" />
-                    <span>producao@stormyprods.com</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Phone className="w-5 h-5 text-primary mr-4" />
-                    <span>+55 (11) 99999-9999</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Instagram className="w-5 h-5 text-primary mr-4" />
-                    <span>@stormyprods</span>
+            <Card className="max-w-4xl mx-auto p-6 md:p-8 rounded-lg border bg-card text-card-foreground shadow-sm stormy-card">
+              <div className="grid md:grid-cols-1 gap-12">
+                <div>
+                  <h2 className="font-bebas text-3xl mb-6 text-center">ENTRE EM CONTATO</h2>
+                  <div className="space-y-6 flex flex-col items-center">
+                    <a href="mailto:stormyrecs@gmail.com" className="flex items-center item-hover">
+                      <Mail className="w-5 h-5 text-primary mr-4" />
+                      <span>stormyrecs@gmail.com</span>
+                    </a>
+                    <a href="https://www.instagram.com/stormy_prods/" target="_blank" rel="noopener noreferrer" className="flex items-center item-hover">
+                      <Instagram className="w-5 h-5 text-primary mr-4" />
+                      <span>@stormy_prods</span>
+                    </a>
                   </div>
                 </div>
               </div>
-              
-              <div>
-                <form className="space-y-4">
-                  <Input 
-                    placeholder="Seu nome"
-                    className="bg-muted border-border"
-                  />
-                  <Input 
-                    type="email"
-                    placeholder="Seu e-mail"
-                    className="bg-muted border-border"
-                  />
-                  <Textarea 
-                    placeholder="Sua mensagem"
-                    rows={4}
-                    className="bg-muted border-border"
-                  />
-                  <Button className="stormy-btn-primary w-full">
-                    Enviar Mensagem
-                  </Button>
-                </form>
-              </div>
-            </div>
+            </Card>
           </section>
         )}
       </div>

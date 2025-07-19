@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Music, Calendar, ArrowRight, Instagram, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { EMAIL_ADDRESS, INSTAGRAM_HANDLE } from "@/lib/constants";
 
 const Home = () => {
   return (
@@ -9,14 +10,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="stormy-section text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-6xl md:text-8xl font-bebas tracking-wider mb-6">
-            <span className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
-              STORMY
-            </span>
-          </h1>
-          <h2 className="text-2xl md:text-3xl font-bebas tracking-wide text-secondary-text mb-8">
-            PRODS & RECORDS
-          </h2>
+          <img src="/stormy-logo.png" alt="Stormy Logo" className="mx-auto" style={{ maxWidth: '400px' }} />
           <p className="text-lg md:text-xl text-secondary-text mb-12 max-w-2xl mx-auto">
             Produtora de eventos e selo musical dedicados ao underground brasileiro. 
             Onde a música extrema encontra seu palco.
@@ -42,7 +36,7 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section className="stormy-section bg-card/30">
+      <section className="stormy-section bg-card/30 pt-3">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -90,7 +84,7 @@ const Home = () => {
 
       {/* Quick Access */}
       <section className="stormy-section">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto pt-3">
           <h2 className="font-bebas text-4xl text-center mb-12">
             EXPLORE NOSSO UNIVERSO
           </h2>
@@ -154,11 +148,11 @@ const Home = () => {
               <div className="space-y-2 text-sm text-secondary-text">
                 <div className="flex items-center">
                   <Mail className="w-4 h-4 mr-2 text-primary" />
-                  contato@stormymusic.com
+                  {EMAIL_ADDRESS}
                 </div>
                 <div className="flex items-center">
                   <Instagram className="w-4 h-4 mr-2 text-primary" />
-                  @stormyunderground
+                  {INSTAGRAM_HANDLE}
                 </div>
               </div>
             </div>

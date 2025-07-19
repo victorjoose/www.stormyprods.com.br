@@ -152,6 +152,7 @@
 
   .stormy-section {
     @apply py-16 px-4 md:px-8 lg:px-16;
+    padding-top: 0;
   }
 
   .stormy-header {
@@ -161,5 +162,9 @@
 
   .stormy-subtitle {
     @apply text-lg md:text-xl text-[hsl(var(--secondary-text))] mb-8;
+  }
+
+  .item-hover {
+    @apply hover:text-primary;
   }
 }
