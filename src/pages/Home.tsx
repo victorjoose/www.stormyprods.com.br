@@ -70,7 +70,7 @@ const Home = () => {
                 style={{ backgroundImage: "url('https://i.pinimg.com/736x/64/4c/84/644c84e5926eba00a47d3cc55f935ceb.jpg')" }}
               />
               <div 
-                className="h-64 bg-cover bg-center rounded-sm mt-8"
+                className="h-64 bg-cover bg-center rounded-sm"
                 style={{ backgroundImage: "url('https://i.pinimg.com/736x/65/c5/40/65c540d0f82040bd408c1e92d94096d2.jpg')" }}
               />
             </div>
@@ -171,7 +171,7 @@ const Home = () => {
           </div>
           
           <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-text">
-            © 2024 Stormy Prods & Records. Todos os direitos reservados.
+            © 2025 Stormy Prods & Records. Todos os direitos reservados.
           </div>
         </div>
       </footer>

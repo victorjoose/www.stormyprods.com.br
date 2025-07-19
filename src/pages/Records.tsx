@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Instagram, Play, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,30 +10,50 @@ const Records = () => {
 
   const services = ["Mixagem", "Masterização", "Captação"];
 
-  const SubNav = () => (
-    <div className="border-b border-border mb-8">
-      <div className="flex space-x-8 overflow-x-auto">
-        {[
-          { id: "bandas", label: "Bandas" },
-          { id: "lancamentos", label: "Lançamentos" },
-          { id: "servicos", label: "Serviços" },
-          { id: "contato", label: "Contato" }
-        ].map(item => (
-          <button
-            key={item.id}
-            onClick={() => setActiveSection(item.id)}
-            className={`py-3 px-1 border-b-2 transition-colors whitespace-nowrap ${
-              activeSection === item.id
-                ? 'border-primary text-primary'
-                : 'border-transparent text-secondary-text hover:text-foreground'
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
+  const SubNav = () => {
+    const itemRefs = useRef(new Map());
+    const scrollContainerRef = useRef(null);
+
+    const handleItemClick = (id) => {
+      setActiveSection(id);
+    };
+
+    useEffect(() => {
+      const node = itemRefs.current.get(activeSection);
+      const container = scrollContainerRef.current;
+
+      if (node && container) {
+        const scrollLeft = node.offsetLeft - (container.offsetWidth / 2) + (node.offsetWidth / 2);
+        container.scrollTo({ left: scrollLeft });
+      }
+    }, [activeSection]);
+
+    return (
+      <div className="border-b border-border mb-8">
+        <div ref={scrollContainerRef} className="flex space-x-8 overflow-x-auto">
+          {[
+            { id: "bandas", label: "Bandas" },
+            { id: "lancamentos", label: "Lançamentos" },
+            { id: "servicos", label: "Serviços" },
+            { id: "contato", label: "Contato" }
+          ].map(item => (
+            <button
+              key={item.id}
+              ref={el => itemRefs.current.set(item.id, el)}
+              onClick={() => handleItemClick(item.id)}
+              className={`py-3 px-1 border-b-2 transition-colors whitespace-nowrap ${
+                activeSection === item.id
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-secondary-text hover:text-foreground'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="pt-24 min-h-screen">

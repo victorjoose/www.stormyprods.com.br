@@ -1,5 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { Music, Calendar } from "lucide-react";
+import { Music, Calendar, Menu } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   return (
@@ -21,8 +28,8 @@ const Header = () => {
             </div>
           </a>
 
-          {/* Navigation */}
-          <nav className="flex items-center space-x-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
             <NavLink
               to="/prods"
               className={({ isActive }) =>
@@ -47,6 +54,47 @@ const Header = () => {
               </div>
             </NavLink>
           </nav>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right">
+                <div className="flex flex-col space-y-4 mt-6">
+                  <SheetClose asChild>
+                    <NavLink
+                      to="/prods"
+                      className={({ isActive }) =>
+                        `stormy-nav-link ${isActive ? 'active' : ''}`
+                      }
+                    >
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="w-5 h-5" />
+                        <span>PRODS</span>
+                      </div>
+                    </NavLink>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <NavLink
+                      to="/records"
+                      className={({ isActive }) =>
+                        `stormy-nav-link ${isActive ? 'active' : ''}`
+                      }
+                    >
+                      <div className="flex items-center space-x-2">
+                        <Music className="w-5 h-5" />
+                        <span>RECORDS</span>
+                      </div>
+                    </NavLink>
+                  </SheetClose>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>

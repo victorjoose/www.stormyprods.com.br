@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Calendar, MapPin, Users, ExternalLink, Instagram, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { supabase } from "@/lib/supabaseClient";
 
 const Prods = () => {
-  const [activeSection, setActiveSection] = useState("eventos");
+  const [activeSection, setActiveSection] = useState(() => {
+    const hash = window.location.hash.substring(1);
+    const validSections = ["eventos", "historico", "servicos", "contato"];
+    return validSections.includes(hash) ? hash : "eventos";
+  });
   const [displayCount, setDisplayCount] = useState(6);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
@@ -33,6 +37,7 @@ const Prods = () => {
         setError(err.message);
       } finally {
         setLoading(false);
+        window.scrollTo(0, 0);
       }
     };
 
@@ -47,30 +52,50 @@ const Prods = () => {
     "Técnico de som",
   ];
 
-  const SubNav = () => (
-    <div className="border-b border-border mb-8">
-      <div className="flex space-x-8 overflow-x-auto">
-        {[
-          { id: "eventos", label: "Próximos Eventos" },
-          { id: "historico", label: "Histórico" },
-          { id: "servicos", label: "Serviços" },
-          { id: "contato", label: "Contato" }
-        ].map(item => (
-          <button
-            key={item.id}
-            onClick={() => setActiveSection(item.id)}
-            className={`py-3 px-1 border-b-2 transition-colors whitespace-nowrap ${
-              activeSection === item.id
-                ? 'border-primary text-primary'
-                : 'border-transparent text-secondary-text hover:text-foreground'
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
+  const SubNav = () => {
+    const itemRefs = useRef(new Map());
+    const scrollContainerRef = useRef(null);
+
+    const handleItemClick = (id) => {
+      setActiveSection(id);
+    };
+
+    useEffect(() => {
+      const node = itemRefs.current.get(activeSection);
+      const container = scrollContainerRef.current;
+
+      if (node && container) {
+        const scrollLeft = node.offsetLeft - (container.offsetWidth / 2) + (node.offsetWidth / 2);
+        container.scrollTo({ left: scrollLeft });
+      }
+    }, [activeSection]);
+
+    return (
+      <div className="border-b border-border mb-8">
+        <div ref={scrollContainerRef} className="flex space-x-8 overflow-x-auto">
+          {[
+            { id: "eventos", label: "Próximos Eventos" },
+            { id: "historico", label: "Histórico" },
+            { id: "servicos", label: "Serviços" },
+            { id: "contato", label: "Contato" }
+          ].map(item => (
+            <button
+              key={item.id}
+              ref={el => itemRefs.current.set(item.id, el)}
+              onClick={() => handleItemClick(item.id)}
+              className={`py-3 px-1 border-b-2 transition-colors whitespace-nowrap ${
+                activeSection === item.id
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-secondary-text hover:text-foreground'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="pt-24 min-h-screen">
