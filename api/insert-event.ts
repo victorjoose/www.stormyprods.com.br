@@ -41,7 +41,7 @@ export default async function handler(req: Request) {
     const { data, error } = await supabaseClient
       .from('events')
       .insert([
-        { name, date, location, bands, ticketLink, image, upcoming, photos, photosUrl },
+        { name, date, location, bands, ticketlink: ticketLink, image, upcoming, photos, photosurl: photosUrl },
       ])
       .select();
 
