@@ -3,7 +3,7 @@ export const bands = [
     id: 1,
     name: "SCUMBAGS",
     genre: "Punk Rock, Post-Hardcore",
-    image: "/public/scumbags.jpg",
+    image: "https://i.pinimg.com/736x/e3/8a/bb/e38abb96147ed9d2a4edabbb27f04872.jpg",
     bio: "Formada em 2017, a Scumbags é uma banda de punk rock/post-hardcore do underground brasileiro.",
     spotify: "https://open.spotify.com/artist/4h2cZ1HMMIMuBIHR1Uke0q",
     instagram: "https://www.instagram.com/scumbags.br/"
@@ -12,7 +12,7 @@ export const bands = [
     id: 2,
     name: "PLANOREAL",
     genre: "Hardcore",
-    image: "/public/planoreal.jpeg",
+    image: "https://i.pinimg.com/736x/f5/e3/14/f5e314f4226dc68b6a14c36c54aa054a.jpg",
     bio: "Desde 2021 formada em Joinville, explorando a cena underground com letras de resistência e crítica social.",
     spotify: "https://open.spotify.com/artist/3zATHKF7vP67QvVwJJHFjp",
     instagram: "https://www.instagram.com/aplanoreal/"
