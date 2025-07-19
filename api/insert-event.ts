@@ -29,7 +29,7 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const { name, date, location, bands, ticketLink, image, upcoming, photos, photosUrl } = await req.json();
+    const { name, date, location, bands, ticketlink, image, upcoming, photos, photosurl } = await req.json();
 
     if (!name || !date || !location) {
       return new Response(JSON.stringify({ error: 'Missing required fields: name, date, or location' }), {
@@ -41,7 +41,7 @@ export default async function handler(req: Request) {
     const { data, error } = await supabaseClient
       .from('events')
       .insert([
-        { name, date, location, bands, ticketLink, image, upcoming, photos, photosUrl },
+        { name, date, location, bands, ticketlink, image, upcoming, photos, photosurl },
       ])
       .select();
 
@@ -53,8 +53,12 @@ export default async function handler(req: Request) {
       headers: { 'Content-Type': 'application/json' },
       status: 201,
     });
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: `insert-event API error: ${error.message}` }), {
+  } catch (error: unknown) {
+    let errorMessage = 'insert-event API error: Unknown error';
+    if (error instanceof Error) {
+      errorMessage = `insert-event API error: ${error.message}`;
+    }
+    return new Response(JSON.stringify({ error: errorMessage }), {
       headers: { 'Content-Type': 'application/json' },
       status: 400,
     });
