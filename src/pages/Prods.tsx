@@ -142,7 +142,7 @@ const Prods = () => {
                     </div>
 
                     <Button asChild className="stormy-btn-primary w-full">
-                      <a href={event.ticketLink}>
+                      <a href={event.ticketlink}>
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Comprar Ingressos
                       </a>
