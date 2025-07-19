@@ -44,38 +44,34 @@ const Home = () => {
                 UNDERGROUND. AUTÊNTICO. BRUTAL.
               </h2>
               <p className="text-secondary-text text-lg mb-6">
-                Desde 2020, a Stormy Prods & Records vem moldando a cena underground 
-                brasileira, produzindo eventos que marcam época e lançando álbuns 
-                que definem gerações.
+                Desde 2018, a Stormy Prods & Records fortalece a cena independente de Joinville, trazendo bandas de relevância nacional e resgatando o espaço da cidade no circuito de shows alternativos.
               </p>
               <p className="text-secondary-text mb-8">
-                Nossa missão é dar voz ao que é real, autêntico e sem compromissos 
-                comerciais. Do black metal ao doom, do thrash ao hardcore, 
-                representamos a diversidade e a intensidade do metal nacional.
+                Nosso compromisso é com o que é genuíno: punk, hardcore, shoegaze, indie, metal e rock em todas as suas formas. Valorizamos bandas ativas, com atitude, criando eventos que vão além da música e são encontros da cultura underground.
               </p>
               <div className="flex space-x-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bebas text-primary">50+</div>
+                  <div className="text-3xl font-bebas text-primary">40+</div>
                   <div className="text-secondary-text text-sm">Eventos Produzidos</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bebas text-primary">25+</div>
+                  <div className="text-3xl font-bebas text-primary">4</div>
                   <div className="text-secondary-text text-sm">Lançamentos</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bebas text-primary">10+</div>
+                  <div className="text-3xl font-bebas text-primary">2</div>
                   <div className="text-secondary-text text-sm">Bandas no Cast</div>
                 </div>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div 
-                className="h-64 bg-cover bg-center rounded-lg"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop')" }}
+                className="h-64 bg-cover bg-center rounded-sm"
+                style={{ backgroundImage: "url('https://i.pinimg.com/736x/64/4c/84/644c84e5926eba00a47d3cc55f935ceb.jpg')" }}
               />
               <div 
-                className="h-64 bg-cover bg-center rounded-lg mt-8"
-                style={{ backgroundImage: "url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=400&h=400&fit=crop')" }}
+                className="h-64 bg-cover bg-center rounded-sm mt-8"
+                style={{ backgroundImage: "url('https://i.pinimg.com/736x/65/c5/40/65c540d0f82040bd408c1e92d94096d2.jpg')" }}
               />
             </div>
           </div>
@@ -139,7 +135,7 @@ const Home = () => {
                 </div>
               </div>
               <p className="text-secondary-text text-sm">
-                Underground brasileiro autêntico desde 2020.
+                Na luta pela cena autoral de Joinville e região desde 2018.
               </p>
             </div>
             
@@ -147,12 +143,16 @@ const Home = () => {
               <h4 className="font-bebas text-lg mb-4">CONTATO</h4>
               <div className="space-y-2 text-sm text-secondary-text">
                 <div className="flex items-center">
-                  <Mail className="w-4 h-4 mr-2 text-primary" />
-                  {EMAIL_ADDRESS}
+                   <a href="mailto:stormyrecs@gmail.com" className="flex items-center item-hover">
+                      <Mail className="w-4 h-4 mr-2 text-primary" />
+                      {EMAIL_ADDRESS}
+                    </a>
                 </div>
                 <div className="flex items-center">
-                  <Instagram className="w-4 h-4 mr-2 text-primary" />
-                  {INSTAGRAM_HANDLE}
+                  <a href="https://www.instagram.com/stormy_prods/" target="_blank" rel="noopener noreferrer" className="flex items-center item-hover">
+                    <Instagram className="w-4 h-4 mr-2 text-primary" />
+                    {INSTAGRAM_HANDLE}
+                  </a>
                 </div>
               </div>
             </div>
