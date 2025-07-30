@@ -51,3 +51,7 @@ Abra [http://localhost:5173](http://localhost:5173) para visualizá-la no navega
 - `npm run build`: Compila a aplicação para produção.
 - `npm run lint`: Executa o linter no código.
 - `npm run preview`: Pré-visualiza a build de produção.
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT. Veja `LICENSE` para mais informações.
