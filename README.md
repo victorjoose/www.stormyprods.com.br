@@ -1,7 +1,7 @@
 # <p align="center"> <img src="./public/stormy-logo.png" alt="Stormy Logo" width="150"/> </p>
 <h1 align="center">Stormy Prods & Records</h1>
 <p align="center">
-  O site oficial da Stormy Productions and Records, construído com as mais recentes tecnologias web.
+  O site oficial da Stormy Productions and Records.
 </p>
 
 ## 🚀 Sobre o Projeto
@@ -51,7 +51,3 @@ Abra [http://localhost:5173](http://localhost:5173) para visualizá-la no navega
 - `npm run build`: Compila a aplicação para produção.
 - `npm run lint`: Executa o linter no código.
 - `npm run preview`: Pré-visualiza a build de produção.
-
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT. Veja `LICENSE` para mais informações.
