@@ -1,10 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
+import { withAuth } from './middleware';
 
 export const config = {
   runtime: 'edge',
 };
 
-export default async function handler(req: Request) {
+async function handler(req: Request) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
@@ -66,3 +67,5 @@ export default async function handler(req: Request) {
     });
   }
 }
+
+export default withAuth(handler);
