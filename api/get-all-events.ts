@@ -1,3 +1,4 @@
+
 import { createClient } from '@supabase/supabase-js';
 import { withAuth } from './middleware';
 
@@ -16,13 +17,9 @@ async function handler(req: Request) {
     });
   }
 
-  const supabaseClient = createClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    { global: { headers: { 'x-my-custom-header': 'Vercel Edge Functions' } } }
-  );
+  const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
-  if (req.method !== 'POST') {
+  if (req.method !== 'GET') {
     return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
       headers: { 'Content-Type': 'application/json' },
       status: 405,
@@ -30,34 +27,22 @@ async function handler(req: Request) {
   }
 
   try {
-    const { name, date, location, bands, ticketLink, image, upcoming, photos, photosUrl } = await req.json();
-
-    if (!name || !date || !location) {
-      return new Response(JSON.stringify({ error: 'Missing required fields: name, date, or location' }), {
-        headers: { 'Content-Type': 'application/json' },
-        status: 400,
-      });
-    }
-
     const { data, error } = await supabaseClient
       .from('events')
-      .insert([
-        { name, date, location, bands, ticketlink: ticketLink, image, upcoming, photos, photosurl: photosUrl },
-      ])
-      .select();
+      .select('name, date, location, bands, ticketlink, image, upcoming, photos, photosurl');
 
     if (error) {
       throw error;
     }
 
-    return new Response(JSON.stringify(data), {
+    return new Response(JSON.stringify(data.reverse()), {
       headers: { 'Content-Type': 'application/json' },
-      status: 201,
+      status: 200,
     });
   } catch (error: any) {
-    return new Response(JSON.stringify({ error: `insert-event API error: ${error.message}` }), {
+    return new Response(JSON.stringify({ error: `get-all-events API error: ${error.message}` }), {
       headers: { 'Content-Type': 'application/json' },
-      status: 400,
+      status: 500,
     });
   }
 }
